@@ -9,7 +9,6 @@ import { sepolia } from "wagmi/chains";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
 
 const { chains, provider } = configureChains([sepolia], [publicProvider()]);
 
