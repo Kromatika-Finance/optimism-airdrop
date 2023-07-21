@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import ButtonLoader from "@/components/ButtonLoader";
 import Confetti from "@/components/Confetti";
 import Link from "next/link";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const Home: NextPage = () => {
   const targetChain = sepolia;
@@ -24,10 +25,9 @@ const Home: NextPage = () => {
 
   const [addresss, setAddress] = useState<string>("");
   const [eligible, setEligible] = useState<boolean>(false);
-  const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const [isWrongNetwork, setIsWrongNetwork] = useState(false);
-  const [createPoolLoading, setCreatePoolLoading] = useState<boolean>(false);
+  const [claimLoading, setClaimLoading] = useState<boolean>(false);
 
   const [claimableTokens, setClaimableTokens] = useState<string>("");
 
@@ -48,7 +48,6 @@ const Home: NextPage = () => {
             provider,
             address
           );
-          console.log(claimableTokensResult.toString());
           setClaimableTokens(claimableTokensResult.toString());
         };
 
@@ -57,7 +56,7 @@ const Home: NextPage = () => {
     } else {
       setEligible(false);
     }
-  }, [address, provider]);
+  }, [address, chain, provider, targetChain.id]);
 
   const checkEligilibity = () => {
     !addresss ? toast.error("Connect Wallet") : null;
@@ -65,12 +64,50 @@ const Home: NextPage = () => {
 
   return (
     <div
-      className="min-h-contentHeight"
+      className="min-h-contentHeight bg-backgroundColor"
       style={{
-        backgroundImage:
-          "url(images/Dapp-background-final-white.png), linear-gradient(to right bottom, #0a0f38, #0a0f38, #173F78)",
+        backgroundImage: "url(images/Dapp-background-final-white.png)",
       }}
     >
+      {" "}
+      <nav className="min-h-navbarHeight flex py-4 px-8 md:px-12 lg:px-16">
+        <div className="flex justify-between lg:w-auto w-full lg:border-b-0 border-solid border-gray-300 py-4 lg:py-0">
+          <div className="flex items-center flex-shrink-0 text-gray-800">
+            <Link href="https://kromatika.finance/" target="_blank">
+              <img
+                src="/images/krom-logo.png"
+                width={50}
+                height={50}
+                alt="logo icon"
+              ></img>
+            </Link>
+          </div>
+        </div>
+        <div
+          className={
+            "menu w-full lg:block flex-grow lg:flex lg:items-center lg:w-auto"
+          }
+        >
+          <div className="xmd:flex xmd:h-20 w-full py-5 items-center justify-end">
+            <div className="flex min-w-[165px] justify-end">
+              <ConnectButton
+                chainStatus={{
+                  smallScreen: "icon",
+                  largeScreen: "full",
+                }}
+                accountStatus={{
+                  smallScreen: "avatar",
+                  largeScreen: "address",
+                }}
+                showBalance={{
+                  smallScreen: true,
+                  largeScreen: true,
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </nav>
       {isWrongNetwork ? (
         <>
           <div className="flex w-11/12 md:w-9/12 items-center justify-center mx-auto flex-wrap py-8">
@@ -120,14 +157,14 @@ const Home: NextPage = () => {
                       height={32}
                       style={{ margin: "12px 0 12px 0" }}
                     />
-                    <p className="">2500</p>
+                    <p className="">1000</p>
                   </div>
                   <div className="flex flex-col m-4 mb-8 text-grey text-lg	">
                     <button
                       className={
-                        createPoolLoading
+                        claimLoading
                           ? "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white opacity-25"
-                          : "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white"
+                          : "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white opacity-50"
                       }
                     >
                       Claim
@@ -139,7 +176,7 @@ const Home: NextPage = () => {
                 <div className="flex flex-col m-4 mb-8 text-grey text-lg	">
                   <button
                     className={
-                      createPoolLoading
+                      claimLoading
                         ? "bg-progressiveBackground w-8/12 sm:w-7/12 xl:w-6/12 mx-auto rounded-md text-white opacity-25"
                         : "bg-progressiveBackground w-8/12 sm:w-7/12 xl:w-6/12 mx-auto rounded-md text-white"
                     }

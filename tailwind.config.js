@@ -16,6 +16,7 @@ module.exports = {
       progressiveBackground: "#6E1ED2",
       wrongNetworkBackground: "#FF494A",
       linkTextColor: "#7602fa",
+      backgroundColor: "#0B0F39",
     },
     screens: {
       xsm: "480px",
@@ -47,7 +48,7 @@ module.exports = {
     },
     minHeight: {
       screen: "100vh",
-      contentHeight: "90vh",
+      contentHeight: "100vh",
       navbarHeight: "10vh",
     },
   },

@@ -5,7 +5,7 @@ export default function Document() {
     <Html lang="en">
       <Head />
       <link rel="icon" href="images/krom-logo.png" />
-      <body>
+      <body style={{ color: "#0B0F39" }}>
         <Main />
         <NextScript />
       </body>

@@ -8,7 +8,6 @@ import { sepolia } from "wagmi/chains";
 
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
-import NavBar from "@/components/NavBar";
 
 const { chains, provider } = configureChains([sepolia], [publicProvider()]);
 
@@ -32,7 +31,6 @@ export default function App({ Component, pageProps }: AppProps) {
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains}>
           <Toaster />
-          <NavBar />
           <Component {...pageProps} />
         </RainbowKitProvider>
       </WagmiConfig>
