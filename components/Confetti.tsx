@@ -11,8 +11,12 @@ export default function Confetti() {
 
   const makeShot = useCallback((particleRatio: any, opts: any) => {
     refAnimationInstance.current &&
-      refAnimationInstance.current
-      
+      // @ts-ignore:next-line
+      refAnimationInstance.current({
+        ...opts,
+        origin: { y: 0.7 },
+        particleCount: Math.floor(200 * particleRatio),
+      });
   }, []);
 
   useEffect(() => fire(), []);

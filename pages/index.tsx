@@ -8,7 +8,6 @@ import { toast } from "react-hot-toast";
 import { utils } from "ethers";
 import { useRouter } from "next/router";
 import ButtonLoader from "@/components/ButtonLoader";
-import Image from "next/image";
 import Confetti from "@/components/Confetti";
 import Link from "next/link";
 
@@ -89,7 +88,7 @@ const Home: NextPage = () => {
                 </u>{" "}
                 Network
                 {isLoading && pendingChainId === x.id}
-                <Image
+                <img
                   src="/images/op-logo.svg"
                   alt="Optimism Logo"
                   className="mx-auto mt-2"
@@ -114,7 +113,7 @@ const Home: NextPage = () => {
                     You will receive
                   </div>
                   <div className="bg-newColor items-center justify-center w-7/12 sm:w-5/12 xl:w-4/12 flex my-2 mx-auto text-grey text-lg rounded-xl gap-4">
-                    <Image
+                    <img
                       src={"/images/op-logo.svg"}
                       alt="Optimism Logo"
                       width={32}

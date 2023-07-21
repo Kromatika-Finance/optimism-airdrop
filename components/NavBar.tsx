@@ -2,7 +2,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useRouter } from "next/router";
-import Image from "next/image";
 
 export const NavBar = () => {
   const router = useRouter();
@@ -17,12 +16,12 @@ export const NavBar = () => {
       <div className="flex justify-between lg:w-auto w-full lg:border-b-0 pl-6 pr-2 border-solid border-gray-300 pb-5 lg:pb-0">
         <div className="flex items-center flex-shrink-0 text-gray-800">
           <Link href="https://kromatika.finance/" target="_blank">
-            <Image
+            <img
+              src="/images/KROM_Transparent_1.png"
               width={166}
               height={166}
-              src={"/images/KROM_Transparent_1.png"}
               alt="logo icon"
-            />
+            ></img>
           </Link>
         </div>
         <div className="block lg:hidden ">
@@ -65,7 +64,7 @@ export const NavBar = () => {
               }}
               showBalance={{
                 smallScreen: true,
-                largeScreen: true
+                largeScreen: true,
               }}
             />
           </div>
