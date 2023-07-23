@@ -5,9 +5,9 @@
 import { Contract, Signer, utils } from "ethers";
 import type { Provider } from "@ethersproject/providers";
 import type {
-  MerkleTreeDistributor,
-  MerkleTreeDistributorInterface,
-} from "../MerkleTreeDistributor";
+  MerkleDistributor,
+  MerkleDistributorInterface,
+} from "../MerkleDistributor";
 
 const _abi = [
   {
@@ -213,6 +213,19 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "_endTime",
+        type: "uint256",
+      },
+    ],
+    name: "setEndTime",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address[]",
         name: "_recipients",
         type: "address[]",
@@ -269,19 +282,15 @@ const _abi = [
   },
 ] as const;
 
-export class MerkleTreeDistributor__factory {
+export class MerkleDistributor__factory {
   static readonly abi = _abi;
-  static createInterface(): MerkleTreeDistributorInterface {
-    return new utils.Interface(_abi) as MerkleTreeDistributorInterface;
+  static createInterface(): MerkleDistributorInterface {
+    return new utils.Interface(_abi) as MerkleDistributorInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): MerkleTreeDistributor {
-    return new Contract(
-      address,
-      _abi,
-      signerOrProvider
-    ) as MerkleTreeDistributor;
+  ): MerkleDistributor {
+    return new Contract(address, _abi, signerOrProvider) as MerkleDistributor;
   }
 }

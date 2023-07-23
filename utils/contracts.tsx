@@ -1,12 +1,12 @@
-import { MerkleTreeDistributor__factory } from "@/types/ethers-contracts";
+import { MerkleDistributor__factory } from "@/types/ethers-contracts";
 
 import { Provider } from "@ethersproject/abstract-provider";
 import { Signer } from "ethers";
 
-export const MerkleTreeDistributorAddress = "0x42c385E43C56B281182220f8A0710b3fd2EC1A3b";
+export const MerkleDistributorAddress = "0xF98dCd95217E15E05d8638da4c91125E59590B07";
 
-export const getMerkleTreeDistributorContract = async (
+export const getMerkleDistributorContract = async (
   signerOrProvider: Signer | Provider
 ) => {
-  return MerkleTreeDistributor__factory.connect(MerkleTreeDistributorAddress, signerOrProvider);
+  return MerkleDistributor__factory.connect(MerkleDistributorAddress, signerOrProvider);
 };

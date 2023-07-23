@@ -4,12 +4,12 @@ import "@/styles/globals.css";
 import { Toaster } from "react-hot-toast";
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { sepolia } from "wagmi/chains";
+import { optimism } from "wagmi/chains";
 
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 
-const { chains, provider } = configureChains([sepolia], [publicProvider()]);
+const { chains, provider } = configureChains([optimism], [publicProvider()]);
 
 const { connectors } = getDefaultWallets({
   appName: "kromatika.finance - OP Airdrop",

@@ -1,6 +1,6 @@
 import {
-  MerkleTreeDistributorAddress,
-  getMerkleTreeDistributorContract,
+  MerkleDistributorAddress,
+  getMerkleDistributorContract,
 } from "./contracts";
 import { Provider } from "@ethersproject/abstract-provider";
 import { Signer } from "ethers";
@@ -12,8 +12,26 @@ export const fetchClaimableTokensAmount = async (
   provider: Provider,
   userAddress: string
 ) => {
-  const contract = await getMerkleTreeDistributorContract(provider);
+  const contract = await getMerkleDistributorContract(provider);
   return contract.claimableTokens(userAddress);
+};
+
+export const checkHasClaimed = async (
+  provider: Provider,
+  userAddress: string
+) => {
+  const contract = await getMerkleDistributorContract(provider);
+  return contract.hasClaimed(userAddress);
+};
+
+export const claimAirdrop = async (
+  userAddress: string,
+  amount: string,
+  proof: string[],
+  signer: Signer
+) => {
+  const contract = await getMerkleDistributorContract(signer);
+  return contract.claim(userAddress, amount, proof);
 };
 
 // Contracts utils

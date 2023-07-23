@@ -1,9 +1,9 @@
 import type { NextPage } from "next";
 import { useState, useEffect } from "react";
 import { useAccount, useSwitchNetwork } from "wagmi";
-import { fetchClaimableTokensAmount } from "@/utils/interfaces";
+import { checkHasClaimed, claimAirdrop } from "@/utils/interfaces";
 import { getProvider, getNetwork, fetchSigner } from "@wagmi/core";
-import { sepolia } from "wagmi/chains";
+import { optimism } from "wagmi/chains";
 import { toast } from "react-hot-toast";
 import { utils } from "ethers";
 import { useRouter } from "next/router";
@@ -11,9 +11,11 @@ import ButtonLoader from "@/components/ButtonLoader";
 import Confetti from "@/components/Confetti";
 import Link from "next/link";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import usersJson from "../components/users.json";
+// import proofsJson from "../components/proofs.json";
 
 const Home: NextPage = () => {
-  const targetChain = sepolia;
+  const targetChain = optimism;
   const { address, isConnecting, isDisconnected } = useAccount();
   const provider = getProvider({ chainId: targetChain.id });
   const router = useRouter();
@@ -26,15 +28,18 @@ const Home: NextPage = () => {
   const [addresss, setAddress] = useState<string>("");
   const [eligible, setEligible] = useState<boolean>(false);
 
+  const [userHasClaimed, setUserHasClaimed] = useState<boolean>(false);
+
   const [isWrongNetwork, setIsWrongNetwork] = useState(false);
   const [claimLoading, setClaimLoading] = useState<boolean>(false);
 
   const [claimableTokens, setClaimableTokens] = useState<string>("");
 
+  const [indexOfProof, setIndexOfProof] = useState<string>("");
+
   useEffect(() => {
     if (address) {
       setAddress(address);
-      setEligible(true);
 
       if (chain!.id == targetChain.id) {
         setIsWrongNetwork(false);
@@ -43,24 +48,63 @@ const Home: NextPage = () => {
       }
 
       if (provider) {
-        const getClaimableTokens = async () => {
-          const claimableTokensResult = await fetchClaimableTokensAmount(
-            provider,
-            address
-          );
-          setClaimableTokens(claimableTokensResult.toString());
-        };
+        const eligibleUser = usersJson.filter(
+          (user) => user.address.toLowerCase() === addresss.toLowerCase()
+        );
 
-        getClaimableTokens();
+        if (eligibleUser.length > 0) {
+          setEligible(true);
+          setClaimableTokens(eligibleUser[0].amount);
+
+          const index = usersJson.findIndex((object) => {
+            return object.address.toLowerCase() === addresss.toLowerCase();
+          });
+          setIndexOfProof(index.toString());
+
+          // const claimed = async () => {
+          //   const hasClaimedBoolean = await checkHasClaimed(provider, addresss);
+          //   setUserHasClaimed(hasClaimedBoolean);
+          // };
+
+          // claimed();
+        } else {
+          setEligible(false);
+        }
       }
-    } else {
-      setEligible(false);
     }
   }, [address, chain, provider, targetChain.id]);
 
   const checkEligilibity = () => {
     !addresss ? toast.error("Connect Wallet") : null;
   };
+
+  // const claimOpHandler = async (amount: string, proofIndex: number) => {
+  //   setClaimLoading(true);
+  //   try {
+  //     const signer = await fetchSigner();
+  //     let tx;
+  //     tx = await claimAirdrop(
+  //       addresss,
+  //       amount,
+  //       proofsJson[proofIndex],
+  //       signer!
+  //     );
+
+  //     await tx.wait(1);
+
+  //     setClaimLoading(false);
+  //     toast.success(`You have succesfully claimed ${amount} $OP`);
+
+  //     const hasClaimedBoolean = await checkHasClaimed(provider, addresss);
+  //     setUserHasClaimed(hasClaimedBoolean);
+
+  //     return tx;
+  //   } catch (e: any) {
+  //     toast.error(e.reason);
+  //     setClaimLoading(false);
+  //     return null;
+  //   }
+  // };
 
   return (
     <div
@@ -143,34 +187,47 @@ const Home: NextPage = () => {
             <div className="flex flex-col p-4 bg-airdropBackground rounded-2xl ">
               {addresss ? (
                 <>
-                  <div className="flex flex-col items-center m-4 text-white text-2xl text-center">
-                    {`You're Eligible!`}
-                  </div>
-                  <div className="flex flex-col items-center my-2 lg:mx-4 text-grey text-lg	">
-                    You will receive
-                  </div>
-                  <div className="bg-newColor items-center justify-center w-7/12 sm:w-5/12 xl:w-4/12 flex my-2 mx-auto text-grey text-lg rounded-xl gap-4">
-                    <img
-                      src={"/images/op-logo.svg"}
-                      alt="Optimism Logo"
-                      width={32}
-                      height={32}
-                      style={{ margin: "12px 0 12px 0" }}
-                    />
-                    <p className="">1000</p>
-                  </div>
-                  <div className="flex flex-col m-4 mb-8 text-grey text-lg	">
-                    <button
-                      className={
-                        claimLoading
-                          ? "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white opacity-25"
-                          : "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white opacity-50"
-                      }
-                    >
-                      Claim
-                    </button>
-                    {eligible && <Confetti />}
-                  </div>
+                  {eligible ? (
+                    <>
+                      <div className="flex flex-col items-center m-4 text-white text-2xl text-center">
+                        {`You're Eligible!`}
+                      </div>
+                      <div className="flex flex-col items-center my-2 lg:mx-4 text-grey text-lg	">
+                        You will receive
+                      </div>
+                      <div className="bg-newColor items-center justify-center w-7/12 sm:w-5/12 xl:w-4/12 flex my-2 mx-auto text-grey text-lg rounded-xl gap-4">
+                        <img
+                          src={"/images/op-logo.svg"}
+                          alt="Optimism Logo"
+                          width={32}
+                          height={32}
+                          style={{ margin: "12px 0 12px 0" }}
+                        />
+                        <p className="">{claimableTokens}</p>
+                      </div>
+                      <div className="flex flex-col m-4 mb-8 text-grey text-lg	">
+                        <button
+                          className={
+                            claimLoading
+                              ? "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white opacity-25"
+                              : "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white opacity-50 cursor-default"
+                          }
+                          // onClick={() =>
+                          //   claimOpHandler(claimableTokens, +indexOfProof)
+                          // }
+                        >
+                          Claim
+                        </button>
+                        {eligible && <Confetti />}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex flex-col items-center m-4 text-white text-2xl text-center">
+                        {`Unfortunately, You're not Eligible`}
+                      </div>
+                    </>
+                  )}
                 </>
               ) : (
                 <div className="flex flex-col m-4 mb-8 text-grey text-lg	">
@@ -196,7 +253,11 @@ const Home: NextPage = () => {
                   <li>
                     For more information regarding the $OP airdrop criteria,
                     check the following&nbsp;
-                    <Link href="/" className="text-linkTextColor">
+                    <Link
+                      href="https://gov.optimism.io/t/ready-gf-phase-1-proposal-cycle-6-kromatika/3306"
+                      target="_blank"
+                      className="text-linkTextColor"
+                    >
                       <u>link</u>
                     </Link>
                   </li>

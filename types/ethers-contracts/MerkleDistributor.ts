@@ -27,7 +27,7 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export interface MerkleTreeDistributorInterface extends utils.Interface {
+export interface MerkleDistributorInterface extends utils.Interface {
   functions: {
     "MAX_CLAIM()": FunctionFragment;
     "MIN_CLAIM()": FunctionFragment;
@@ -38,6 +38,7 @@ export interface MerkleTreeDistributorInterface extends utils.Interface {
     "merkleRoot()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
+    "setEndTime(uint256)": FunctionFragment;
     "setRecipients(address[],uint256[])": FunctionFragment;
     "sweep(uint256)": FunctionFragment;
     "tokenAddress()": FunctionFragment;
@@ -55,6 +56,7 @@ export interface MerkleTreeDistributorInterface extends utils.Interface {
       | "merkleRoot"
       | "owner"
       | "renounceOwnership"
+      | "setEndTime"
       | "setRecipients"
       | "sweep"
       | "tokenAddress"
@@ -90,6 +92,10 @@ export interface MerkleTreeDistributorInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "setEndTime",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setRecipients",
     values: [PromiseOrValue<string>[], PromiseOrValue<BigNumberish>[]]
   ): string;
@@ -121,6 +127,7 @@ export interface MerkleTreeDistributorInterface extends utils.Interface {
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "setEndTime", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setRecipients",
     data: BytesLike
@@ -173,12 +180,12 @@ export type SweepEvent = TypedEvent<[BigNumber], SweepEventObject>;
 
 export type SweepEventFilter = TypedEventFilter<SweepEvent>;
 
-export interface MerkleTreeDistributor extends BaseContract {
+export interface MerkleDistributor extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: MerkleTreeDistributorInterface;
+  interface: MerkleDistributorInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -228,6 +235,11 @@ export interface MerkleTreeDistributor extends BaseContract {
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setEndTime(
+      _endTime: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -281,6 +293,11 @@ export interface MerkleTreeDistributor extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setEndTime(
+    _endTime: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setRecipients(
     _recipients: PromiseOrValue<string>[],
     _claimableAmount: PromiseOrValue<BigNumberish>[],
@@ -328,6 +345,11 @@ export interface MerkleTreeDistributor extends BaseContract {
     owner(overrides?: CallOverrides): Promise<string>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
+
+    setEndTime(
+      _endTime: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     setRecipients(
       _recipients: PromiseOrValue<string>[],
@@ -403,6 +425,11 @@ export interface MerkleTreeDistributor extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setEndTime(
+      _endTime: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setRecipients(
       _recipients: PromiseOrValue<string>[],
       _claimableAmount: PromiseOrValue<BigNumberish>[],
@@ -451,6 +478,11 @@ export interface MerkleTreeDistributor extends BaseContract {
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setEndTime(
+      _endTime: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
