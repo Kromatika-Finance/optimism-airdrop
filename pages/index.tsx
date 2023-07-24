@@ -62,7 +62,7 @@ const Home: NextPage = () => {
           setIndexOfProof(index.toString());
 
           // const claimed = async () => {
-          //   const hasClaimedBoolean = await checkHasClaimed(provider, addresss);
+          //   const hasClaimedBoolean = await checkHasClaimed(provider, address);
           //   setUserHasClaimed(hasClaimedBoolean);
           // };
 
@@ -183,48 +183,89 @@ const Home: NextPage = () => {
       ) : (
         <>
           {" "}
-          <div className="w-10/12 sm:w-8/12 lg:w-6/12 2xl:w-4/12 mx-auto py-24 px-8 sm:px-12 md:px-24">
+          <div className="w-10/12 sm:w-8/12 lg:w-6/12 2xl:w-4/12 mx-auto py-24 pt-8 sm:pt-24 px-8 sm:px-12 md:px-24">
             <div className="flex flex-col p-4 bg-airdropBackground rounded-2xl ">
               {addresss ? (
                 <>
                   {eligible ? (
                     <>
-                      <div className="flex flex-col items-center m-4 text-white text-2xl text-center">
-                        {`You're Eligible!`}
-                      </div>
-                      <div className="flex flex-col items-center my-2 lg:mx-4 text-grey text-lg	">
-                        You will receive
-                      </div>
-                      <div className="bg-newColor items-center justify-center w-7/12 sm:w-5/12 xl:w-4/12 flex my-2 mx-auto text-grey text-lg rounded-xl gap-4">
-                        <img
-                          src={"/images/op-logo.svg"}
-                          alt="Optimism Logo"
-                          width={32}
-                          height={32}
-                          style={{ margin: "12px 0 12px 0" }}
-                        />
-                        <p className="">{claimableTokens}</p>
-                      </div>
-                      <div className="flex flex-col m-4 mb-8 text-grey text-lg	">
-                        <button
-                          className={
-                            claimLoading
-                              ? "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white opacity-25"
-                              : "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white opacity-50 cursor-default"
-                          }
-                          // onClick={() =>
-                          //   claimOpHandler(claimableTokens, +indexOfProof)
-                          // }
-                        >
-                          Claim
-                        </button>
-                        {eligible && <Confetti />}
-                      </div>
+                      {userHasClaimed ? (
+                        <>
+                          <div className="flex flex-col items-center my-2 lg:mx-4 text-grey text-lg	">
+                            {`You've Already Claimed!`}
+                          </div>
+                          <div className="bg-newColor items-center justify-center w-7/12 sm:w-5/12 xl:w-4/12 flex my-2 mb-6 mx-auto text-grey text-lg rounded-xl gap-4">
+                            <img
+                              src={"/images/op-logo.svg"}
+                              alt="Optimism Logo"
+                              width={32}
+                              height={32}
+                              style={{ margin: "12px 0 12px 0" }}
+                            />
+                            <p className="">{claimableTokens}</p>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex flex-col items-center m-4 text-white text-2xl text-center">
+                            {`You're Eligible!`}
+                          </div>
+                          <div className="flex flex-col items-center my-2 lg:mx-4 text-grey text-lg	">
+                            You will receive
+                          </div>
+                          <div className="bg-newColor items-center justify-center w-7/12 sm:w-5/12 xl:w-4/12 flex my-2 mx-auto text-grey text-lg rounded-xl gap-4">
+                            <img
+                              src={"/images/op-logo.svg"}
+                              alt="Optimism Logo"
+                              width={32}
+                              height={32}
+                              style={{ margin: "12px 0 12px 0" }}
+                            />
+                            <p className="">{claimableTokens}</p>
+                          </div>
+                          <div className="flex flex-col m-4 mb-8 text-grey text-lg	">
+                            {!claimLoading ? (
+                              <button
+                                className={
+                                  claimLoading
+                                    ? "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white opacity-25"
+                                    : "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white"
+                                }
+                                // onClick={() =>
+                                //   claimOpHandler(claimableTokens, +indexOfProof)
+                                // }
+                              >
+                                Claim
+                              </button>
+                            ) : (
+                              <div className="flex w-5/12 items-center justify-center mx-auto">
+                                <ButtonLoader />
+                              </div>
+                            )}
+                            {eligible && <Confetti />}
+                          </div>{" "}
+                        </>
+                      )}
                     </>
                   ) : (
                     <>
-                      <div className="flex flex-col items-center m-4 text-white text-2xl text-center">
-                        {`Unfortunately, You're not Eligible`}
+                      <ul className="flex flex-col items-center m-4 text-white text-xl text-center">
+                        <li>
+                          {`Unfortunately, You're not Eligible, but take a look at`}{" "}
+                          <Link
+                            href="https://gov.optimism.io/t/ready-gf-phase-1-proposal-cycle-6-kromatika/3306"
+                            target="_blank"
+                            className="font-bold"
+                          >
+                            FELOs.
+                          </Link>
+                        </li>
+                      </ul>
+                      <div className="flex flex-col items-center m-4 text-white text-center">
+                        Kromatika FELO (Fees Earning Limit Order) leverages two
+                        of the most successful technologies in the DeFi space to
+                        create a 100% decentralized, and reliable Limit Order
+                        feature, based on Uniswap V3.
                       </div>
                     </>
                   )}
@@ -260,6 +301,42 @@ const Home: NextPage = () => {
                     >
                       <u>link</u>
                     </Link>
+                  </li>
+                </ul>
+              </div>
+              <div className="flex flex-col m-4 mt-0 text-white text-md text-center">
+                <ul>
+                  <li>
+                    Discover Kromatika
+                    <ul className="">
+                      <li>
+                        <Link
+                          href="https://app.kromatika.finance/limitorder"
+                          target="_blank"
+                          className="text-linkTextColor"
+                        >
+                          <u className="text-white font-bold">FELO</u>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="https://app.kromatika.finance/swap"
+                          target="_blank"
+                          className="text-linkTextColor"
+                        >
+                          <u className="text-white font-bold">Swap</u>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="https://perp.kromatika.finance/"
+                          target="_blank"
+                          className="text-linkTextColor"
+                        >
+                          <u className="text-white font-bold">Perpetuals</u>
+                        </Link>
+                      </li>
+                    </ul>
                   </li>
                 </ul>
               </div>

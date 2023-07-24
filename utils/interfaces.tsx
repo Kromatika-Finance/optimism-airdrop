@@ -20,8 +20,9 @@ export const checkHasClaimed = async (
   provider: Provider,
   userAddress: string
 ) => {
-  const contract = await getMerkleDistributorContract(provider);
-  return contract.hasClaimed(userAddress);
+  return await (
+    await getMerkleDistributorContract(provider)
+  ).hasClaimed(userAddress);
 };
 
 export const claimAirdrop = async (
