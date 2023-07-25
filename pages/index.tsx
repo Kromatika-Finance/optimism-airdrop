@@ -229,7 +229,7 @@ const Home: NextPage = () => {
                                 className={
                                   claimLoading
                                     ? "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white opacity-25"
-                                    : "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white"
+                                    : "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white opacity-50 cursor-default"
                                 }
                                 // onClick={() =>
                                 //   claimOpHandler(claimableTokens, +indexOfProof)
@@ -274,9 +274,7 @@ const Home: NextPage = () => {
                 <div className="flex flex-col m-4 mb-8 text-grey text-lg	">
                   <button
                     className={
-                      claimLoading
-                        ? "bg-progressiveBackground w-8/12 sm:w-7/12 xl:w-6/12 mx-auto rounded-md text-white opacity-25"
-                        : "bg-progressiveBackground w-8/12 sm:w-7/12 xl:w-6/12 mx-auto rounded-md text-white"
+                      "bg-progressiveBackground w-8/12 sm:w-7/12 xl:w-6/12 mx-auto rounded-md text-white"
                     }
                     onClick={() => {
                       checkEligilibity();
