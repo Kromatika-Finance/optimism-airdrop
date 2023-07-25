@@ -253,9 +253,9 @@ const Home: NextPage = () => {
                         <li>
                           {`Unfortunately, You're not Eligible, but take a look at`}{" "}
                           <Link
-                            href="https://gov.optimism.io/t/ready-gf-phase-1-proposal-cycle-6-kromatika/3306"
+                            href="https://app.kromatika.finance/limitorder"
                             target="_blank"
-                            className="font-bold"
+                            className="font-bold text-linkTextColor"
                           >
                             FELOs.
                           </Link>
