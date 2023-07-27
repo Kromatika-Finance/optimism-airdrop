@@ -8,14 +8,6 @@ import Web3 from "web3";
 
 // CONTRACTS
 
-export const fetchClaimableTokensAmount = async (
-  provider: Provider,
-  userAddress: string
-) => {
-  const contract = await getMerkleDistributorContract(provider);
-  return contract.claimableTokens(userAddress);
-};
-
 export const checkHasClaimed = async (
   provider: Provider,
   userAddress: string
