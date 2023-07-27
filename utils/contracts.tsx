@@ -3,7 +3,7 @@ import { MerkleDistributor__factory } from "@/types/ethers-contracts";
 import { Provider } from "@ethersproject/abstract-provider";
 import { Signer } from "ethers";
 
-export const MerkleDistributorAddress = "0xF98dCd95217E15E05d8638da4c91125E59590B07";
+export const MerkleDistributorAddress = "0x73060bd1e70Df9CDd9e321ac308948502c4e1fB5";
 
 export const getMerkleDistributorContract = async (
   signerOrProvider: Signer | Provider

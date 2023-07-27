@@ -36,7 +36,6 @@ contract MerkleDistributor is Ownable {
         uint256 amount,
         bytes32[] calldata merkleProof
     ) external {
-        require(to == msg.sender, "CLAIMEE != msg.sender");
         // Revert if address has already claimed tokens
         require(!hasClaimed[to], "ALREADY_CLAIMED");
 
@@ -52,11 +51,11 @@ contract MerkleDistributor is Ownable {
         );
         require(block.timestamp <= endTime, "Claim ended");
 
-        // Set address to claimed
-        hasClaimed[to] = true;
-
         // Claim tokens
         IERC20(tokenAddress).transfer(to, amount * 1e18);
+
+        // Set address to claimed
+        hasClaimed[to] = true;
 
         emit Claim(to, amount * 1e18);
     }
@@ -76,7 +75,6 @@ contract MerkleDistributor is Ownable {
     /// @notice Set endTime of the claiming period
     /// @param _endTime of the claiming period
     function setEndTime(uint256 _endTime) external onlyOwner {
-        require(block.timestamp >= endTime, "MerkleDistributor: not ended");
         endTime = block.timestamp + _endTime;
     }
 }

@@ -12,7 +12,7 @@ import Confetti from "@/components/Confetti";
 import Link from "next/link";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import usersJson from "../components/users.json";
-// import proofsJson from "../components/proofs.json";
+import proofsJson from "../components/proofs.json";
 
 const Home: NextPage = () => {
   const targetChain = optimism;
@@ -61,12 +61,12 @@ const Home: NextPage = () => {
           });
           setIndexOfProof(index.toString());
 
-          // const claimed = async () => {
-          //   const hasClaimedBoolean = await checkHasClaimed(provider, address);
-          //   setUserHasClaimed(hasClaimedBoolean);
-          // };
+          const claimed = async () => {
+            const hasClaimedBoolean = await checkHasClaimed(provider, address);
+            setUserHasClaimed(hasClaimedBoolean);
+          };
 
-          // claimed();
+          claimed();
         } else {
           setEligible(false);
         }
@@ -78,33 +78,33 @@ const Home: NextPage = () => {
     !addresss ? toast.error("Connect Wallet") : null;
   };
 
-  // const claimOpHandler = async (amount: string, proofIndex: number) => {
-  //   setClaimLoading(true);
-  //   try {
-  //     const signer = await fetchSigner();
-  //     let tx;
-  //     tx = await claimAirdrop(
-  //       addresss,
-  //       amount,
-  //       proofsJson[proofIndex],
-  //       signer!
-  //     );
+  const claimOpHandler = async (amount: string, proofIndex: number) => {
+    setClaimLoading(true);
+    try {
+      const signer = await fetchSigner();
+      let tx;
+      tx = await claimAirdrop(
+        addresss,
+        amount,
+        proofsJson[proofIndex],
+        signer!
+      );
 
-  //     await tx.wait(1);
+      await tx.wait(1);
 
-  //     setClaimLoading(false);
-  //     toast.success(`You have succesfully claimed ${amount} $OP`);
+      setClaimLoading(false);
+      toast.success(`You have succesfully claimed ${amount} $OP`);
 
-  //     const hasClaimedBoolean = await checkHasClaimed(provider, addresss);
-  //     setUserHasClaimed(hasClaimedBoolean);
+      const hasClaimedBoolean = await checkHasClaimed(provider, addresss);
+      setUserHasClaimed(hasClaimedBoolean);
 
-  //     return tx;
-  //   } catch (e: any) {
-  //     toast.error(e.reason);
-  //     setClaimLoading(false);
-  //     return null;
-  //   }
-  // };
+      return tx;
+    } catch (e: any) {
+      toast.error(e.reason);
+      setClaimLoading(false);
+      return null;
+    }
+  };
 
   return (
     <div
@@ -204,6 +204,18 @@ const Home: NextPage = () => {
                             />
                             <p className="">{claimableTokens}</p>
                           </div>
+                          <ul className="flex flex-col items-center m-4 text-white text-md text-center">
+                            <li>
+                              Swap your claimed $OP, using
+                              <Link
+                                href="https://app.kromatika.finance/swap"
+                                target="_blank"
+                                className="font-bold "
+                              >
+                                <u>Kromatika MetaSwap aggregator.</u>
+                              </Link>
+                            </li>
+                          </ul>
                         </>
                       ) : (
                         <>
@@ -229,11 +241,11 @@ const Home: NextPage = () => {
                                 className={
                                   claimLoading
                                     ? "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white opacity-25"
-                                    : "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white opacity-50 cursor-default"
+                                    : "bg-progressiveBackground w-7/12 sm:w-5/12 xl:w-4/12 mx-auto rounded-md text-white"
                                 }
-                                // onClick={() =>
-                                //   claimOpHandler(claimableTokens, +indexOfProof)
-                                // }
+                                onClick={() =>
+                                  claimOpHandler(claimableTokens, +indexOfProof)
+                                }
                               >
                                 Claim
                               </button>

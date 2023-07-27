@@ -32,14 +32,12 @@ export interface MerkleDistributorInterface extends utils.Interface {
     "MAX_CLAIM()": FunctionFragment;
     "MIN_CLAIM()": FunctionFragment;
     "claim(address,uint256,bytes32[])": FunctionFragment;
-    "claimableTokens(address)": FunctionFragment;
     "endTime()": FunctionFragment;
     "hasClaimed(address)": FunctionFragment;
     "merkleRoot()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setEndTime(uint256)": FunctionFragment;
-    "setRecipients(address[],uint256[])": FunctionFragment;
     "sweep(uint256)": FunctionFragment;
     "tokenAddress()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -50,14 +48,12 @@ export interface MerkleDistributorInterface extends utils.Interface {
       | "MAX_CLAIM"
       | "MIN_CLAIM"
       | "claim"
-      | "claimableTokens"
       | "endTime"
       | "hasClaimed"
       | "merkleRoot"
       | "owner"
       | "renounceOwnership"
       | "setEndTime"
-      | "setRecipients"
       | "sweep"
       | "tokenAddress"
       | "transferOwnership"
@@ -72,10 +68,6 @@ export interface MerkleDistributorInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BytesLike>[]
     ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "claimableTokens",
-    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(functionFragment: "endTime", values?: undefined): string;
   encodeFunctionData(
@@ -96,10 +88,6 @@ export interface MerkleDistributorInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setRecipients",
-    values: [PromiseOrValue<string>[], PromiseOrValue<BigNumberish>[]]
-  ): string;
-  encodeFunctionData(
     functionFragment: "sweep",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -115,10 +103,6 @@ export interface MerkleDistributorInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "MAX_CLAIM", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "MIN_CLAIM", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "claimableTokens",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "endTime", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasClaimed", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "merkleRoot", data: BytesLike): Result;
@@ -128,10 +112,6 @@ export interface MerkleDistributorInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setEndTime", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setRecipients",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "sweep", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "tokenAddress",
@@ -218,11 +198,6 @@ export interface MerkleDistributor extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    claimableTokens(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     endTime(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     hasClaimed(
@@ -240,12 +215,6 @@ export interface MerkleDistributor extends BaseContract {
 
     setEndTime(
       _endTime: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setRecipients(
-      _recipients: PromiseOrValue<string>[],
-      _claimableAmount: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -273,11 +242,6 @@ export interface MerkleDistributor extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  claimableTokens(
-    arg0: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   endTime(overrides?: CallOverrides): Promise<BigNumber>;
 
   hasClaimed(
@@ -295,12 +259,6 @@ export interface MerkleDistributor extends BaseContract {
 
   setEndTime(
     _endTime: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setRecipients(
-    _recipients: PromiseOrValue<string>[],
-    _claimableAmount: PromiseOrValue<BigNumberish>[],
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -328,11 +286,6 @@ export interface MerkleDistributor extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    claimableTokens(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     endTime(overrides?: CallOverrides): Promise<BigNumber>;
 
     hasClaimed(
@@ -348,12 +301,6 @@ export interface MerkleDistributor extends BaseContract {
 
     setEndTime(
       _endTime: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setRecipients(
-      _recipients: PromiseOrValue<string>[],
-      _claimableAmount: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -405,11 +352,6 @@ export interface MerkleDistributor extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    claimableTokens(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     endTime(overrides?: CallOverrides): Promise<BigNumber>;
 
     hasClaimed(
@@ -427,12 +369,6 @@ export interface MerkleDistributor extends BaseContract {
 
     setEndTime(
       _endTime: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setRecipients(
-      _recipients: PromiseOrValue<string>[],
-      _claimableAmount: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -461,11 +397,6 @@ export interface MerkleDistributor extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    claimableTokens(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     endTime(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     hasClaimed(
@@ -483,12 +414,6 @@ export interface MerkleDistributor extends BaseContract {
 
     setEndTime(
       _endTime: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setRecipients(
-      _recipients: PromiseOrValue<string>[],
-      _claimableAmount: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

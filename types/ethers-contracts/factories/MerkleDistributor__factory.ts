@@ -127,25 +127,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    name: "claimableTokens",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "endTime",
     outputs: [
@@ -219,24 +200,6 @@ const _abi = [
       },
     ],
     name: "setEndTime",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address[]",
-        name: "_recipients",
-        type: "address[]",
-      },
-      {
-        internalType: "uint256[]",
-        name: "_claimableAmount",
-        type: "uint256[]",
-      },
-    ],
-    name: "setRecipients",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
