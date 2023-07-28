@@ -206,7 +206,7 @@ const Home: NextPage = () => {
                           </div>
                           <ul className="flex flex-col items-center m-4 text-white text-md text-center">
                             <li>
-                              Swap your claimed $OP, using &nbsp;
+                              {"Swap your claimed $OP, using "}
                               <Link
                                 href="https://app.kromatika.finance/swap"
                                 target="_blank"
